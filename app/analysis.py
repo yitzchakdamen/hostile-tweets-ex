@@ -1,5 +1,6 @@
 from collections import Counter
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
+import os
 
 
 class Analysis:
@@ -29,6 +30,7 @@ class Analysis:
         return file_content.split("\n")
 
     @staticmethod
-    def weapons_detected(text: str, file_url: str) -> str:
+    def weapons_detected(text: str) -> str:
+        file_url = os.getenv( "file_url" ,"data/weapons.txt")
         """Detect weapons mentioned in the text."""
         return " ".join([weapon for weapon in Analysis.get_list_of_weapons(file_url) if weapon in text.split(" ")])

@@ -11,3 +11,4 @@ data:
   USER: "IRGC"
   DATABASE: "IranMalDB"
   COLLECTION: "tweets"
+  file_url: "data/weapons.txt"
