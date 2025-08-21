@@ -45,5 +45,3 @@ class Processing:
 
     def saving_as_json_format(self) -> dict:
         return loads(self.df.to_json(orient="records"))
-
-    
