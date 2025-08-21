@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hostile-tweets-ex-service
+  labels:
+    app: hostile-tweets-ex
+spec:
+  selector:
+    app: hostile-tweets-ex
+  ports:
+    - port: 8080
+      targetPort: 8080
+  clusterIP: None 

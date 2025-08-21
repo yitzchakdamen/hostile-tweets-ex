@@ -4,6 +4,7 @@ from pymongo import MongoClient
 from pymongo.collection import Collection
 from pymongo.database import Database
 from pymongo.cursor import Cursor
+import pandas as pd
 
 
 logging.basicConfig(level=logging.DEBUG)
@@ -21,9 +22,8 @@ class DataLoader:
         self.PASS:str =  os.getenv("PASS", "iraniraniran")
         self.DATABASE:str = os.getenv("DATABASE", "IranMalDB") 
         self.COLLECTION:str = os.getenv("COLLECTION", "tweets")
-        self.client_con = self.client()
-            
-        logger.debug(f"Database connection parameters set: DB_HOST:{self.HOST}, MONGO_DATABASE:{self.DATABASE}")
+
+        logger.debug(f"Database connection parameters set: HOST:{self.HOST}, DATABASE:{self.DATABASE}, COLLECTION:{self.COLLECTION}, USER:{self.USER}, PASS:{self.PASS}")
 
     def client(self) -> MongoClient:
         """
@@ -32,31 +32,25 @@ class DataLoader:
         self.connection_string = f"mongodb+srv://{self.USER}:{self.PASS}@{self.HOST}/"
         client:MongoClient = MongoClient(self.connection_string)
         return client
-    
-    def get_database(self) -> Database:
-        """Create a database connection.""" 
-        db: Database = self.client_con[self.DATABASE]
+
+    def get_database(self, client: MongoClient) -> Database:
+        """Create a database connection."""
+        db: Database = client[self.DATABASE]
         logger.debug("Database connection successful.")
         return db
 
-    def get_collection(self) -> Collection:
-        """
-        Fetch all records from the specified table.
-        """
+    def get_collection(self, db: Database) -> Collection:
+        """Get the specified collection from the database."""
         logger.debug(f"Fetching all records from collection: {self.COLLECTION}")
+        return db[self.COLLECTION]
 
-        db: Database = self.get_database()
-        collection: Collection = db[self.COLLECTION]
-        return collection
-    
-    def get(self ) -> Cursor:
-        """Fetch  from the database."""
-        collection:Collection = self.get_collection()
-        return collection.find({},{'_id':0})
-    
-    
+    def get_data(self ) -> pd.DataFrame:
+        """Fetch data from the database."""
+        client: MongoClient = self.client()
+        db: Database = self.get_database(client)
+        collection: Collection = self.get_collection(db)
+        result: Cursor = collection.find({},{'_id':0})
+        df = pd.DataFrame(result)
+        client.close()
+        return df
 
-if __name__ == "__main__":
-    dataLoader = DataLoader()
-    all = dataLoader.get()
-    print(all)

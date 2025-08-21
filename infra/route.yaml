@@ -1,0 +1,12 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: hostile-tweets-ex
+spec:
+  host: ''
+  port:
+    targetPort: 8080 
+  to:
+    kind: Service
+    name: hostile-tweets-ex-service
+
