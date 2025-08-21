@@ -1,6 +1,5 @@
 import pandas as pd
 from collections import Counter
-import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from json import loads, dumps
 
@@ -25,7 +24,6 @@ class Processing:
             else: return "Negative"
 
         def emotion(tweet: str) -> float:
-            nltk.download('vader_lexicon')
             return SentimentIntensityAnalyzer().polarity_scores(tweet)["compound"]
 
         self.df["sentiment"] = self.df["Text"].apply(emotion)

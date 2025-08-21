@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hostile-tweets-ex-deployment
+spec:
+  selector:
+    matchLabels:
+      app: hostile-tweets-ex
+  template:
+    metadata:
+      labels:
+        app: hostile-tweets-ex
+    spec:
+      containers:
+      - name: hostile-tweets-ex
+        image: yitzchakdamen/hostile-tweets-ex:v4
+        imagePullPolicy: Always
+        env:
+        - name: HOST
+          valueFrom:
+            configMapKeyRef:
+              name: hostile-tweets-ex-configmap
+              key: HOST
+        - name: USER
+          valueFrom:
+            configMapKeyRef:
+              name: hostile-tweets-ex-configmap
+              key: USER
+        - name: DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: hostile-tweets-ex-configmap
+              key: DATABASE
+        - name: COLLECTION
+          valueFrom:
+            configMapKeyRef:
+              name: hostile-tweets-ex-configmap
+              key: COLLECTION
+        - name: APP_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: hostile-tweets-ex-configmap
+              key: APP_PORT
+        ports:
+        - containerPort: 8080
+

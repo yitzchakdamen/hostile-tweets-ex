@@ -1,1 +1,13 @@
-APP_PORT: 8080
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hostile-tweets-ex-configmap
+  namespace: yitzchakdamen-dev
+  labels:
+    app: hostile-tweets-ex
+data:
+  APP_PORT: "8080"
+  HOST: "iranmaldb.gurutam.mongodb.net"
+  USER: "IRGC"
+  DATABASE: "IranMalDB"
+  COLLECTION: "tweets"

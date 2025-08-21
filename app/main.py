@@ -10,11 +10,11 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI()
 management = Management()
-processing = management.start()
 
 
 @app.get("/api/get-analysis")
-async def read_all() :
+async def read_all():
+    processing = management.start()
     return processing
 
 if __name__ == "__main__":
