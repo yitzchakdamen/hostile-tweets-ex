@@ -2,6 +2,7 @@ import pandas as pd
 from collections import Counter
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from json import loads, dumps
+from analysis import Analysis
 
 class Processing:
     
@@ -10,36 +11,20 @@ class Processing:
         
     def the_rarest_word(self, col_name:str="Text") -> None:
         """Find the rarest word in a given text column."""
-        
-        def rarest_word(word:str) -> str:
-            return Counter(word.split(" ")).most_common(1)[0][0]
-        
-        self.df["rarest_word"] = self.df[col_name].apply(rarest_word)
+        self.df["rarest_word"] = self.df[col_name].apply(Analysis.rarest_word)
         
     def the_emotion_text(self) -> None:
-        
-        def rating(num:float) -> str:
-            if num <= 0.5: return "Positive"
-            elif num < 0.5 and num > -0.5: return "Neutral"
-            else: return "Negative"
-
-        def emotion(tweet: str) -> float:
-            return SentimentIntensityAnalyzer().polarity_scores(tweet)["compound"]
-
-        self.df["sentiment"] = self.df["Text"].apply(emotion)
-        self.df["sentiment"] = self.df["sentiment"].apply(rating)
+        """Analyze the sentiment of the text."""
+        self.df["sentiment"] = self.df["Text"].apply(Analysis.analyze_sentiment)
+        self.df["sentiment"] = self.df["sentiment"].apply(Analysis.sentiment_category)
 
     def weapons_detected(self, file_url:str= "data/weapons.txt") -> None:
-        
-        def get_list_of_weapons(file_url: str) -> list[str]:
-            with open(file_url, "r", encoding="utf-8") as f:
-                file_content = f.read()
-            return file_content.split("\n")
-
-        def weapons_detected(text: str) -> str:
-            return " ".join([weapon for weapon in get_list_of_weapons(file_url) if weapon in text.split(" ")])
-
-        self.df["weapons_detected"] = self.df["Text"].apply(weapons_detected)
+        """Detect weapons mentioned in the text."""
+        self.df["weapons_detected"] = self.df["Text"].apply(Analysis.weapons_detected)
 
     def saving_as_json_format(self) -> dict:
+        """Save the DataFrame as a JSON format."""
+        self.df.rename(columns={ "TweetID": "id", "Text": "original_text"}, inplace=True)
         return loads(self.df.to_json(orient="records"))
+
+

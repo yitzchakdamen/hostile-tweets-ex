@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: hostile-tweets-ex
-        image: yitzchakdamen/hostile-tweets-ex:v4
+        image: yitzchakdamen/hostile-tweets-ex:v10
         imagePullPolicy: Always
         env:
         - name: HOST

@@ -3,8 +3,8 @@ docker
 
 docker build -t hostile-tweets-ex .
 docker login
-docker tag hostile-tweets-ex yitzchakdamen/hostile-tweets-ex:v4
-docker push yitzchakdamen/hostile-tweets-ex:v4
+docker tag hostile-tweets-ex yitzchakdamen/hostile-tweets-ex:v10
+docker push yitzchakdamen/hostile-tweets-ex:v10
 
 ----
 

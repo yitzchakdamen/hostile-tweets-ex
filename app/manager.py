@@ -12,13 +12,12 @@ class Management:
         # nltk.download('vader_lexicon')
 
     def start(self) -> dict:
-        retrieval:Cursor = self.retrieval_management()
-        df:pd.DataFrame = self.conversion_to_dataframe(retrieval)
+        df:pd.DataFrame = self.retrieval_management()
         processing: dict = self.processing_management(df)
         return processing
     
-    def retrieval_management(self) -> Cursor:
-        return self.dataLoader.get()
+    def retrieval_management(self) -> pd.DataFrame:
+        return self.dataLoader.get_data()
     
     def processing_management(self, df:pd.DataFrame) -> dict:
         processing:Processing = Processing(df)
