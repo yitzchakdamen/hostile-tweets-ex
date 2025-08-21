@@ -18,7 +18,7 @@ class Processing:
         self.df["sentiment"] = self.df["Text"].apply(Analysis.analyze_sentiment)
         self.df["sentiment"] = self.df["sentiment"].apply(Analysis.sentiment_category)
 
-    def weapons_detected(self, file_url:str= "data/weapons.txt") -> None:
+    def weapons_detected(self) -> None:
         """Detect weapons mentioned in the text."""
         self.df["weapons_detected"] = self.df["Text"].apply(Analysis.weapons_detected)
 
