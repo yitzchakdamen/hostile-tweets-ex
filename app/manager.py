@@ -9,18 +9,21 @@ class Management:
     def __init__(self) -> None:
         self.dataLoader:DataLoader = DataLoader()
 
-    def start(self):
+    def start(self) -> dict:
         retrieval:Cursor = self.retrieval_management()
         df:pd.DataFrame = self.conversion_to_dataframe(retrieval)
         processing: dict = self.processing_management(df)
+        return processing
     
     def retrieval_management(self) -> Cursor:
         return self.dataLoader.get()
     
     def processing_management(self, df:pd.DataFrame) -> dict:
         processing:Processing = Processing(df)
-        return processing.saving_dict_format()
+        processing.the_rarest_word()
+        processing.the_emotion_text()
+        processing.weapons_detected()
+        return processing.saving_as_json_format()
         
-    
     def conversion_to_dataframe(self, object_cursor: Cursor) -> pd.DataFrame:
         return pd.DataFrame(object_cursor)
