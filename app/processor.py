@@ -28,8 +28,8 @@ class Processing:
             nltk.download('vader_lexicon')
             return SentimentIntensityAnalyzer().polarity_scores(tweet)["compound"]
 
-        self.df["emotion"] = self.df["Text"].apply(emotion)
-        self.df["sentiment"] = self.df["emotion"].apply(rating)
+        self.df["sentiment"] = self.df["Text"].apply(emotion)
+        self.df["sentiment"] = self.df["sentiment"].apply(rating)
 
     def weapons_detected(self, file_url:str= "data/weapons.txt") -> None:
         
