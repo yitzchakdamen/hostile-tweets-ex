@@ -9,7 +9,6 @@ class Management:
     
     def __init__(self) -> None:
         self.dataLoader:DataLoader = DataLoader()
-        # nltk.download('vader_lexicon')
 
     def start(self) -> dict:
         df:pd.DataFrame = self.retrieval_management()
@@ -25,6 +24,3 @@ class Management:
         processing.the_emotion_text()
         processing.weapons_detected()
         return processing.saving_as_json_format()
-        
-    def conversion_to_dataframe(self, object_cursor: Cursor) -> pd.DataFrame:
-        return pd.DataFrame(object_cursor)
